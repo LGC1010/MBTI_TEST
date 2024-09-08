@@ -9,7 +9,7 @@ const Main = () => {
     if (token) {
       navigate('/login');
     } else {
-      navigate('/join');
+      navigate('/signup');
     }
   };
   return (
