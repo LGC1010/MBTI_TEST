@@ -5,8 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const Login = () => {
-  const [Id, setId] = useState('');
-  const [PassWord, setPassWord] = useState('');
+  const [id, setId] = useState('');
+  const [password, setPassWord] = useState('');
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -19,9 +19,8 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      const response = await axios.post('https://moneyfulpublicpolicy.co.kr/login', { Id, PassWord });
+      const response = await axios.post('https://moneyfulpublicpolicy.co.kr/login', { id, password });
       const data = response.data;
       if (data.success) {
         login(data.accessToken);
@@ -38,8 +37,8 @@ const Login = () => {
   return (
     <ContentBox>
       <form onSubmit={handleSubmit}>
-        <input value={Id} type='text' onChange={handleId} placeholder='ID' />
-        <input value={PassWord} type='password' onChange={handlePassWord} placeholder='PSW' />
+        <input value={id} type='text' onChange={handleId} placeholder='ID' />
+        <input value={password} type='password' onChange={handlePassWord} placeholder='PSW' />
         <button type='submit'>로그인</button>
       </form>
     </ContentBox>
