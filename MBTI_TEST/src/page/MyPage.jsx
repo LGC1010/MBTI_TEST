@@ -2,12 +2,15 @@ import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
+import { getUserProfile, updateProfile } from '../api/Auth';
 
 const Mypage = () => {
   const [userInfo, setUserInfo] = useState(null);
   const [newNickname, setNewNickname] = useState('');
   const { isAuthenticated } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  const token = localStorage.getItem('accessToken');
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -16,13 +19,12 @@ const Mypage = () => {
     } else {
       const fetchUserInfo = async () => {
         try {
-          const token = localStorage.getItem('accessToken');
-          const response = await axios.get('https://moneyfulpublicpolicy.co.kr/user', {
+          const response = await getUserProfile({
             headers: {
               Authorization: `Bearer ${token}`
             }
           });
-          setUserInfo(response.data);
+          setUserInfo(response);
         } catch (error) {
           console.error('에러');
         }
@@ -34,21 +36,19 @@ const Mypage = () => {
   const handleNicknameChange = async (e) => {
     e.preventDefault();
     try {
-      const token = localStorage.getItem('accessToken');
       const formData = new FormData();
       formData.append('nickname', newNickname);
-
-      const response = await axios.patch('https://moneyfulpublicpolicy.co.kr/profile', formData, {
+      const response = await updateProfile(formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data'
         }
       });
 
-      if (response.data.success) {
+      if (response.success) {
         setUserInfo((prevState) => ({
           ...prevState,
-          nickname: response.data.nickname
+          nickname: response.nickname
         }));
         alert('닉네임이 변경되었습니다.');
         setNewNickname('');
@@ -70,6 +70,17 @@ const Mypage = () => {
       <h2>My Page</h2>
       <p>ID: {userInfo.id}</p>
       <p>Nickname: {userInfo.nickname}</p>
+      <form onSubmit={handleNicknameChange}>
+        <input
+          type='text'
+          placeholder='닉네임 입력'
+          value={newNickname}
+          onChange={(e) => {
+            setNewNickname(e.target.value);
+          }}
+        />
+        <button type='submit'>닉네임 수정하기</button>
+      </form>
     </div>
   );
 };

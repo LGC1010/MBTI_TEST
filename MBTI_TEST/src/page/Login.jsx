@@ -1,8 +1,8 @@
-import React, { useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import ContentBox from '../layout/ContentBox';
 import AuthContext from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { logins } from '../api/Auth';
 
 const Login = () => {
   const [id, setId] = useState('');
@@ -20,8 +20,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('https://moneyfulpublicpolicy.co.kr/login', { id, password });
-      const data = response.data;
+      const data = await logins({ id, password });
       if (data.success) {
         login(data.accessToken);
         navigate('/mypage');

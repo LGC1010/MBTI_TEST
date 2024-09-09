@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ContentBox from '../layout/ContentBox';
 import axios from 'axios';
+import { register } from '../api/Auth';
 
 const SignUp = () => {
   const [id, setId] = useState('');
@@ -24,8 +25,7 @@ const SignUp = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('https://moneyfulpublicpolicy.co.kr/register', { id, password, nickname });
-      const data = response.data;
+      const data = await register({ id, password, nickname });
       if (data.success) {
         navigate('/login');
         console.log(data.success);
