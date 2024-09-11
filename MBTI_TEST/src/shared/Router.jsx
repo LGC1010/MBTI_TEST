@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Main from '../page/Main';
 import Login from '../page/Login';
-import Mypage from '../page/Mypage';
+import Mypage from '../page/MyPage';
 import SignUp from '../page/signup';
 import { useContext } from 'react';
 import AuthContext from '../context/AuthContext';
