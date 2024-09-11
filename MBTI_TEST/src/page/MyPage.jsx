@@ -1,87 +1,72 @@
-import axios from 'axios';
-import { useContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import AuthContext from '../context/AuthContext';
-import { getUserProfile, updateProfile } from '../api/Auth';
+import { useEffect, useState } from 'react';
+import { useUpdateMutation } from '../quries/useGetPostsQuery';
+import { useGetMyQuery } from '../quries/useGetPostsQuery';
+import ContentBox from '../layout/ContentBox';
 
 const Mypage = () => {
   const [userInfo, setUserInfo] = useState(null);
   const [newNickname, setNewNickname] = useState('');
-  const { isAuthenticated } = useContext(AuthContext);
-  const navigate = useNavigate();
 
   const token = localStorage.getItem('accessToken');
 
+  const { data } = useGetMyQuery({
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+
   useEffect(() => {
-    if (!isAuthenticated) {
-      alert('로그인이 필요합니다.');
-      navigate('/login');
-    } else {
-      const fetchUserInfo = async () => {
-        try {
-          const response = await getUserProfile({
-            headers: {
-              Authorization: `Bearer ${token}`
-            }
-          });
-          setUserInfo(response);
-        } catch (error) {
-          console.error('에러');
-        }
-      };
-      fetchUserInfo();
+    if (data) {
+      setUserInfo(data);
     }
-  }, [isAuthenticated, navigate]);
+  }, [data]);
 
-  const handleNicknameChange = async (e) => {
-    e.preventDefault();
-    try {
-      const formData = new FormData();
-      formData.append('nickname', newNickname);
-      const response = await updateProfile(formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'multipart/form-data'
-        }
-      });
-
-      if (response.success) {
-        setUserInfo((prevState) => ({
-          ...prevState,
-          nickname: response.nickname
-        }));
-        alert('닉네임이 변경되었습니다.');
-        setNewNickname('');
-      } else {
-        alert('닉네임 변경에 실패했습니다.');
-      }
-    } catch (error) {
-      console.error('Failed to update nickname:', error);
-      alert('닉네임 변경에 실패했습니다.');
-    }
-  };
+  const formData = new FormData();
+  formData.append('nickname', newNickname);
+  const { mutate } = useUpdateMutation();
 
   if (!userInfo) {
     return <div>Loading...</div>;
   }
 
   return (
-    <div>
-      <h2>My Page</h2>
-      <p>ID: {userInfo.id}</p>
-      <p>Nickname: {userInfo.nickname}</p>
-      <form onSubmit={handleNicknameChange}>
-        <input
-          type='text'
-          placeholder='닉네임 입력'
-          value={newNickname}
-          onChange={(e) => {
-            setNewNickname(e.target.value);
-          }}
-        />
-        <button type='submit'>닉네임 수정하기</button>
-      </form>
-    </div>
+    <ContentBox>
+      <div className='h-screen/90 flex justify-center items-center'>
+        <div className='rounded-3xl min-h-96 bg-rounded-3xl bg-white pt-12 pb-12 w-w/500 flex flex-col align items-center justify-center'>
+          <h2 className='text-4xl mb-4'>프로필</h2>
+          <p className='text-xl mb-2'>ID: {userInfo.id}</p>
+          <p className='text-xl mb-4'>Nickname: {userInfo.nickname}</p>
+          <form
+            className='text-center flex flex-col items-center'
+            onSubmit={(e) => {
+              e.preventDefault();
+              mutate({
+                formData,
+                userData: {
+                  headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'multipart/form-data'
+                  }
+                }
+              });
+            }}
+          >
+            <input
+              className='w-50 mb-4 border-slate-400 py-2 px-2 border pd-2'
+              type='text'
+              placeholder='닉네임 입력'
+              value={newNickname}
+              onChange={(e) => {
+                setNewNickname(e.target.value);
+              }}
+            />
+            <button className='inline-block w-40 mb-4 text-white bg-[#9cbfdb] py-3 px-4 border pd-2' type='submit'>
+              닉네임 수정하기
+            </button>
+          </form>
+        </div>
+      </div>
+    </ContentBox>
   );
 };
 

@@ -1,14 +1,10 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import ContentBox from '../layout/ContentBox';
-import AuthContext from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
-import { logins } from '../api/Auth';
+import { useLoginMutation } from '../quries/useGetPostsQuery';
 
 const Login = () => {
   const [id, setId] = useState('');
   const [password, setPassWord] = useState('');
-  const { login } = useContext(AuthContext);
-  const navigate = useNavigate();
 
   const handleId = (e) => {
     setId(e.target.value);
@@ -16,30 +12,37 @@ const Login = () => {
   const handlePassWord = (e) => {
     setPassWord(e.target.value);
   };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const data = await logins({ id, password });
-      if (data.success) {
-        login(data.accessToken);
-        navigate('/mypage');
-      } else {
-        alert('로그인에 실패했습니다');
-      }
-    } catch (error) {
-      console.log(error);
-      alert('로그인 에러 재확인 부탁드립니다');
-    }
-  };
-
+  const { mutate } = useLoginMutation();
   return (
     <ContentBox>
-      <form onSubmit={handleSubmit}>
-        <input value={id} type='text' onChange={handleId} placeholder='ID' />
-        <input value={password} type='password' onChange={handlePassWord} placeholder='PSW' />
-        <button type='submit'>로그인</button>
-      </form>
+      <div className='h-screen/90 flex justify-center items-center'>
+        <form
+          className='rounded-3xl bg-white pt-12 pb-12 w-w/500 flex flex-col align items-center justify-center'
+          onSubmit={(e) => {
+            e.preventDefault();
+            mutate({ id: id, password: password });
+          }}
+        >
+          <h2 className='mb-8 text-4xl'>Login</h2>
+          <input
+            className='w-96 mb-9 border-slate-400 py-3 px-4 rounded-3xl border pd-2'
+            value={id}
+            type='text'
+            onChange={handleId}
+            placeholder='ID'
+          />
+          <input
+            className='w-96 mb-8 border-slate-400 py-3 px-4 rounded-3xl border pd-2'
+            value={password}
+            type='password'
+            onChange={handlePassWord}
+            placeholder='PSW'
+          />
+          <button className='w-40 mb-4 text-white bg-[#9cbfdb] py-3 px-4 border pd-2' type='submit'>
+            Login In
+          </button>
+        </form>
+      </div>
     </ContentBox>
   );
 };
