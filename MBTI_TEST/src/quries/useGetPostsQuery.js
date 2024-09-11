@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 
 const API_URL = 'https://moneyfulpublicpolicy.co.kr';
-const LOCAL_API_URL = 'https://melodious-crimson-pea.glitch.me';
+const LOCAL_API_URL = 'https://melodious-crimson-pea.glitch.me/testResults';
 
 async function getPosts() {
   const res = await axios.get(API_URL);
