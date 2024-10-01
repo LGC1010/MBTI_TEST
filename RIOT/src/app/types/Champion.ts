@@ -1,5 +1,3 @@
-import { StaticImageData } from "next/image";
-
 export interface ChampionData {
     type: string;
     format: string;
@@ -16,4 +14,11 @@ export interface Champion {
     };
     name: string;
     title: string;
+    blurb: string | null;
+    info: {
+        attack: number;
+        defense: number;
+        magic: number;
+        difficulty: number;
+    };
 }
