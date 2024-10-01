@@ -15,10 +15,19 @@ export interface Champion {
     name: string;
     title: string;
     blurb: string | null;
+    key: string | number;
     info: {
         attack: number;
         defense: number;
         magic: number;
         difficulty: number;
     };
+}
+
+export interface RotateChampData {
+    freeChampionIds: RotateChamp;
+}
+
+export interface RotateChamp {
+    id: number;
 }

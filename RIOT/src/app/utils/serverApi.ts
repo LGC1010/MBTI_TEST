@@ -24,3 +24,12 @@ export async function getChampionDetail() {
 
     return datas;
 }
+
+export async function getChampionRotation() {
+    const res = await fetch(
+        "https://kr.api.riotgames.com/lol/platform/v3/champion-rotations?api_key=RGAPI-c99b2e5e-2c31-4db9-b299-f314e92122cf"
+    );
+    const data = await res.json();
+
+    return data;
+}
