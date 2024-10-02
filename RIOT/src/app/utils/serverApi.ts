@@ -1,6 +1,6 @@
 "use server";
 
-import { ChampionData } from "../types/Champion";
+import { ChampionData, ItemData } from "../types/Champion";
 
 // 챔피언 목록
 export async function getChampion() {
@@ -19,7 +19,6 @@ export async function getChampion() {
 export async function getChampionDetail() {
     const res = await fetch("https://ddragon.leagueoflegends.com/cdn/14.19.1/data/ko_KR/champion.json", {});
     const data: ChampionData = await res.json();
-    // console.log(data);
     const datas = Object.values(data.data);
 
     return datas;
@@ -31,5 +30,12 @@ export async function getChampionRotation() {
     );
     const data = await res.json();
 
+    return data;
+}
+
+export async function getItemList() {
+    const res = await fetch("https://ddragon.leagueoflegends.com/cdn/14.19.1/data/ko_KR/item.json");
+    const data: ItemData = await res.json();
+    const datas = Object.values(data.data);
     return data;
 }

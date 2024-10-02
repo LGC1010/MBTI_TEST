@@ -31,3 +31,18 @@ export interface RotateChampData {
 export interface RotateChamp {
     id: number;
 }
+
+export interface ItemData {
+    type: string;
+    data: {
+        data: Item;
+    };
+}
+
+export interface Item {
+    name: string;
+    plaintext: string;
+    image: {
+        full: string;
+    };
+}
