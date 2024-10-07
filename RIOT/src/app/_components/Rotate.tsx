@@ -7,7 +7,7 @@ import Link from "next/link";
 
 const getChampionRotation = async () => {
     const res = await fetch(
-        "https://kr.api.riotgames.com/lol/platform/v3/champion-rotations?api_key=RGAPI-c99b2e5e-2c31-4db9-b299-f314e92122cf"
+        "https://kr.api.riotgames.com/lol/platform/v3/champion-rotations?api_key=RGAPI-f42ef7ab-3d33-4cd3-844d-8c52372c879e"
     );
     const data: RotateChampData = await res.json();
     const datas = Object.values(data.freeChampionIds);
@@ -15,7 +15,7 @@ const getChampionRotation = async () => {
 };
 
 const Rotate = () => {
-    const [rotateChamp, setRotateChamp] = useState<RotateChamp[]>([]);
+    const [rotateChamp, setRotateChamp] = useState<Number[]>([]);
     const [champ, setChamp] = useState<Champion[]>([]);
 
     useEffect(() => {
@@ -23,10 +23,10 @@ const Rotate = () => {
         getChampion().then(setChamp);
     }, []);
     console.log(rotateChamp);
-    console.log(champ);
 
-    const rotateData = champ.filter((champ) => rotateChamp.includes(parseInt(champ.key)));
-    console.log(rotateData);
+    const rotateData = champ.filter((champ) => rotateChamp.includes(Number(champ.key)));
+    console.log(champ);
+    // console.log(rotateData);
 
     return (
         <div>

@@ -15,7 +15,7 @@ export interface Champion {
     name: string;
     title: string;
     blurb: string | null;
-    key: string | number;
+    key: string;
     info: {
         attack: number;
         defense: number;
@@ -25,7 +25,9 @@ export interface Champion {
 }
 
 export interface RotateChampData {
-    freeChampionIds: RotateChamp;
+    freeChampionIds: number[];
+    freeChampionIdsForNewPlayers: number[];
+    maxNewPlayerLevel: number;
 }
 
 export interface RotateChamp {
@@ -35,7 +37,7 @@ export interface RotateChamp {
 export interface ItemData {
     type: string;
     data: {
-        data: Item;
+        [key: string]: Item;
     };
 }
 
