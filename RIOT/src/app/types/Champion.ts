@@ -30,10 +30,6 @@ export interface RotateChampData {
     maxNewPlayerLevel: number;
 }
 
-export interface RotateChamp {
-    id: number;
-}
-
 export interface ItemData {
     type: string;
     data: {

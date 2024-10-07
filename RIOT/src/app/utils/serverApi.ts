@@ -4,14 +4,6 @@ import { ChampionData, ItemData } from "../types/Champion";
 
 const api = process.env.NEXT_PUBLIC_RIOT_API_KEY;
 
-// API 버전
-export const versions = async function getVersion() {
-    const res = await fetch("https://ddragon.leagueoflegends.com/api/versions.json");
-    const data = await res.json();
-    const datas = data[0];
-    return datas;
-};
-
 // 챔피언 목록
 export async function getChampion() {
     const res = await fetch(`https://ddragon.leagueoflegends.com/cdn/14.19.1/data/ko_KR/champion.json`, {
