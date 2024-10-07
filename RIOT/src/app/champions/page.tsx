@@ -1,13 +1,9 @@
 import Image from "next/image";
 import { getChampion } from "../utils/serverApi";
 import Link from "next/link";
-// import { versions } from "./../utils/serverApi";
 
 export default async function Champions() {
     const data = await getChampion();
-    // const d = await versions();
-
-    // console.log(typeof d);
 
     return (
         <div className="bg-[#2b2a29] text-white p-6">
