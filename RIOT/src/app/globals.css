@@ -31,4 +31,26 @@ body {
         padding: 20px;
         color: #fff;
     }
+    .ps_center {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        color: #fff;
+    }
+    .text {
+        display: -webkit-box;
+        word-wrap: break-word;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+    .txt1 {
+        font-size: 24px;
+        color: #fff;
+        text-align: center;
+        margin-top: 10px;
+        font-weight: 700;
+    }
 }

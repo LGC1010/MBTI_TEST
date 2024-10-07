@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Champion, RotateChamp, RotateChampData } from "./../types/Champion";
+import { Champion, RotateChampData } from "./../types/Champion";
 import { getChampion } from "../utils/serverApi";
 import Image from "next/image";
 import Link from "next/link";
@@ -15,38 +15,38 @@ const getChampionRotation = async () => {
 };
 
 const Rotate = () => {
-    const [rotateChamp, setRotateChamp] = useState<Number[]>([]);
+    const [rotateChamp, setRotateChamp] = useState<number[]>([]);
     const [champ, setChamp] = useState<Champion[]>([]);
 
     useEffect(() => {
         getChampionRotation().then(setRotateChamp);
         getChampion().then(setChamp);
     }, []);
-    console.log(rotateChamp);
 
-    const rotateData = champ.filter((champ) => rotateChamp.includes(Number(champ.key)));
-    console.log(champ);
-    // console.log(rotateData);
+    const rotateData = champ.filter((champ) => rotateChamp.includes(parseInt(champ.key)));
 
     return (
-        <div>
-            {rotateData.map((data) => {
-                return (
-                    <div key={data.id}>
-                        <Link href={`champions/${data.id}`}>
-                            <Image
-                                className="object-scale-down"
-                                width={200}
-                                height={200}
-                                src={`https://ddragon.leagueoflegends.com/cdn/14.19.1/img/champion/${data.image.full}`}
-                                alt={""}
-                            ></Image>
-                            <h3>{data.name}</h3>
-                            <p>{data.title}</p>
-                        </Link>
-                    </div>
-                );
-            })}
+        <div className="bg-[#2b2a29] text-white p-6">
+            <h2 className="text-center text-[32px] font-bold mb-[20px]">로테이션 챔피언</h2>
+            <div className="grid grid-cols-5 gap-4">
+                {rotateData.map((data) => {
+                    return (
+                        <div className="border rounded-sm" key={data.id}>
+                            <Link className="block p-4 min-h-[250px]" href={`champions/${data.id}`}>
+                                <Image
+                                    className="object-scale-down"
+                                    width={200}
+                                    height={200}
+                                    src={`https://ddragon.leagueoflegends.com/cdn/14.19.1/img/champion/${data.image.full}`}
+                                    alt={""}
+                                ></Image>
+                                <h3 className="text-[20px] mb-[4px] font-bold">{data.name}</h3>
+                                <p>{data.title}</p>
+                            </Link>
+                        </div>
+                    );
+                })}
+            </div>
         </div>
     );
 };
