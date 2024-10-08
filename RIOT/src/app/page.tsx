@@ -1,7 +1,7 @@
 import Image from "next/image";
-import champ from "./public/img/champ.jpg";
-import rotate from "./public/img/rotate.jpg";
-import item from "./public/img/item.jpg";
+import champ from "/public/img/champ.jpg";
+import rotate from "/public/img/rotate.jpg";
+import item from "/public/img/item.jpg";
 import Link from "next/link";
 
 export default function Home() {
