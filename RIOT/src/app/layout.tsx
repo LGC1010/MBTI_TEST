@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     title: "리그오브레전드",
     description: "리그오브레전드 백과사전",
     icons: {
-        icon: "./public/img/logo.png",
+        icon: "./icon.png",
     },
 };
 
@@ -29,7 +29,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <link rel="icon" href="./public/img/logo.png" sizes="any" />
+            <link rel="icon" href="./icon.png" sizes="any" />
             <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
                 <header>
                     <nav className="nav flex justify-between bg-[#111]">

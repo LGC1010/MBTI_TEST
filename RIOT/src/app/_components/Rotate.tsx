@@ -7,7 +7,7 @@ import Link from "next/link";
 
 const getChampionRotation = async () => {
     const res = await fetch(
-        "https://kr.api.riotgames.com/lol/platform/v3/champion-rotations?api_key=RGAPI-f42ef7ab-3d33-4cd3-844d-8c52372c879e"
+        `https://kr.api.riotgames.com/lol/platform/v3/champion-rotations?api_key=${process.env.NEXT_PUBLIC_RIOT_API_KEY}`
     );
     const data: RotateChampData = await res.json();
     const datas = Object.values(data.freeChampionIds);
